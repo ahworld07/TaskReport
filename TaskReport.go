@@ -101,7 +101,7 @@ func ModuleReport(dbpath string){
 }
 
 
-func ProjectReport(cff *Taskconf.ConfigFile, prjName string){
+func ProjectReport(cff *Taskconf.ConfigFile){
 	fmt.Println(fmt.Sprintf("%s\t%s\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus", sameLen(prjName, 20), sameLen(prjName, 18)))
 	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash() {
 		prjStat := ProjectStat(prjName, dbpath)
