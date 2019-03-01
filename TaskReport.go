@@ -8,7 +8,9 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"strconv"
 	"strings"
+	"errors"
 )
+
 
 func sameLen(inst string, lens int) string {
 	minus := lens - len(inst)
@@ -18,7 +20,15 @@ func sameLen(inst string, lens int) string {
 	return inst
 }
 
-
+func DBpath2conn(dbpath string)(sqlDb *sql.DB, err error){
+	exit_file, err := DAG2yaml.PathExists(dbpath)
+	if exit_file == false {
+		err = errors.New(fmt.Sprintf("%s Not exists!", dbpath))
+		return
+	}
+	sqlDb, err = sql.Open("sqlite3", dbpath)
+	return
+}
 
 func ProjectStat(prjName, dbpath string)(string){
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
@@ -106,6 +116,22 @@ func ProjectReport(cff *Taskconf.ConfigFile){
 	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash() {
 		prjStat := ProjectStat(prjName, dbpath)
 		fmt.Println(prjStat)
+	}
+}
+
+func GetAllPods(dbpath string){
+	sqlDb, err := DBpath2conn(dbpath)
+	tx, _ := sqlDb.Begin()
+	defer tx.Rollback()
+	rows, err := tx.Query("select Pod, Modulen, PodK8sId, Status, IniPath from job")
+
+	var Pod, Modulen, PodK8sId, Status, IniPath string
+	fmt.Println("Pod\tModulen\tIniPath\tStatus")
+
+	for rows.Next() {
+		err = rows.Scan(&Pod, &Modulen, &PodK8sId, &Status, &IniPath)
+		DAG2yaml.CheckErr(err)
+		fmt.Println(fmt.Sprintf("%s\t%s\t%s\t%s" , Pod, Modulen, PodK8sId, Status, IniPath))
 	}
 }
 
