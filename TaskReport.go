@@ -80,7 +80,7 @@ func ProjectDepend(dbpath string){
 		err = rows.Scan(&Modulen1, &Modulen2)
 		DAG2yaml.CheckErr(err)
 		Modulen1 = sameLen(Modulen1, 25)
-		mbym := fmt.Sprintf("%s\t%s" , Modulen1, Modulen2)
+		mbym := fmt.Sprintf("%s----->    %s" , sameLen(Modulen1, 20), Modulen2)
 		fmt.Println(mbym)
 	}
 	//print last module
