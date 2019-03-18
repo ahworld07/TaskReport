@@ -58,6 +58,9 @@ func ProjectStat(prjName, dbpath string)(string){
 }
 
 func ProjectDepend(dbpath string){
+	if dbpath == ""{
+		return
+	}
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
 		panic(fmt.Sprintf("%s Not exists!", dbpath))
