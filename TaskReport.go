@@ -87,6 +87,9 @@ func ProjectDepend(dbpath string){
 }
 
 func ModuleReport(dbpath string){
+	if dbpath == ""{
+		return
+	}
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
 		panic(fmt.Sprintf("%s Not exists!", dbpath))
@@ -117,6 +120,9 @@ func ModuleReport(dbpath string){
 func ProjectReport(cff *Taskconf.ConfigFile){
 	fmt.Println(fmt.Sprintf("%s\t%s\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
 	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash() {
+		if prjName == ""{
+			continue
+		}
 		prjStat := ProjectStat(prjName, dbpath)
 		fmt.Println(prjStat)
 	}
