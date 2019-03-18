@@ -23,7 +23,7 @@ func sameLen(inst string, lens int) string {
 func DBpath2conn(dbpath string)(sqlDb *sql.DB, err error){
 	exit_file, err := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
-		err = errors.New(fmt.Sprintf("%s Not exists!", dbpath))
+		err = errors.New(fmt.Sprintf("%s Not exists!1", dbpath))
 		return
 	}
 	sqlDb, err = sql.Open("sqlite3", dbpath)
@@ -33,7 +33,7 @@ func DBpath2conn(dbpath string)(sqlDb *sql.DB, err error){
 func ProjectStat(prjName, dbpath string)(string){
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
-		return fmt.Sprintf("%s Not exists!", dbpath)
+		return fmt.Sprintf("%s Not exists!2", dbpath)
 	}
 	sqlDb, err := sql.Open("sqlite3", dbpath)
 	DAG2yaml.CheckErr(err)
@@ -63,7 +63,7 @@ func ProjectDepend(dbpath string){
 	}
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
-		panic(fmt.Sprintf("%s Not exists!", dbpath))
+		panic(fmt.Sprintf("%s Not exists!3", dbpath))
 	}
 
 	sqlDb, err := sql.Open("sqlite3", dbpath)
@@ -92,7 +92,7 @@ func ModuleReport(dbpath string){
 	}
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
-		panic(fmt.Sprintf("%s Not exists!", dbpath))
+		panic(fmt.Sprintf("%s Not exists!4", dbpath))
 	}
 
 	sqlDb, err := sql.Open("sqlite3", dbpath)
