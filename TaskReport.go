@@ -123,6 +123,7 @@ func ProjectReport(cff *Taskconf.ConfigFile){
 		if prjName == ""{
 			continue
 		}
+		fmt.Println(fmt.Sprintf("%s1%s2",prjName, dbpath))
 		prjStat := ProjectStat(prjName, dbpath)
 		fmt.Println(prjStat)
 	}
