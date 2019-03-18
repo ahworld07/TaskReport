@@ -120,10 +120,10 @@ func ModuleReport(dbpath string){
 func ProjectReport(cff *Taskconf.ConfigFile){
 	fmt.Println(fmt.Sprintf("%s\t%s\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
 	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash() {
-		if prjName == ""{
+		if prjName == "000"{
 			continue
 		}
-		fmt.Println(fmt.Sprintf("%s1%s2",prjName, dbpath))
+		//fmt.Println(fmt.Sprintf("%s1%s2",prjName, dbpath))
 		prjStat := ProjectStat(prjName, dbpath)
 		fmt.Println(prjStat)
 	}
