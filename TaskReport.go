@@ -136,12 +136,12 @@ func GetAllPods(dbpath string){
 	rows, err := tx.Query("select Pod, Modulen, PodK8sId, Status, IniPath from job")
 
 	var Pod, Modulen, PodK8sId, Status, IniPath string
-	fmt.Println("Pod\tModulen\tIniPath\tStatus")
+	fmt.Println("Pod         \tModulen     \tStatus    \tIniPath ")
 
 	for rows.Next() {
 		err = rows.Scan(&Pod, &Modulen, &PodK8sId, &Status, &IniPath)
 		DAG2yaml.CheckErr(err)
-		fmt.Println(fmt.Sprintf("%s\t%s\t%s\t%s" , Pod, Modulen, PodK8sId, Status, IniPath))
+		fmt.Println(fmt.Sprintf("%s\t%s\t%s\t%s\t%s" , sameLen(Pod, 12), sameLen(Modulen, 12), sameLen(PodK8sId, 27), sameLen(Status, 10), IniPath))
 	}
 }
 
