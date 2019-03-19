@@ -136,7 +136,7 @@ func GetAllPods(dbpath string){
 	rows, err := tx.Query("select Pod, Modulen, PodK8sId, Status, IniPath from job")
 
 	var Pod, Modulen, PodK8sId, Status, IniPath string
-	fmt.Println("Pod         \tModulen     \tStatus    \tIniPath ")
+	fmt.Println("Pod         \tModulen     \tPodK8sId                   \tStatus    \tIniPath ")
 
 	for rows.Next() {
 		err = rows.Scan(&Pod, &Modulen, &PodK8sId, &Status, &IniPath)
