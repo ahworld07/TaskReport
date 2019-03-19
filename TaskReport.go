@@ -80,7 +80,7 @@ func ProjectDepend(dbpath string){
 		err = rows.Scan(&Modulen1, &Modulen2)
 		DAG2yaml.CheckErr(err)
 		Modulen1 = sameLen(Modulen1, 25)
-		mbym := fmt.Sprintf("%s----->    %s" , sameLen(Modulen1, 20), Modulen2)
+		mbym := fmt.Sprintf("%s----->    %s" , sameLen(Modulen1, 15), Modulen2)
 		fmt.Println(mbym)
 	}
 	//print last module
@@ -105,12 +105,12 @@ func ModuleReport(dbpath string){
 	//var Start_time, End_time time.Time
 	rows, err := tx.Query("select Mname, Total, Unsubmit, Pending, Failed, Succeeded, Running, Status  from modulen")
 
-	fmt.Println("Mname\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus")
+	fmt.Println("Mname               \tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus")
 
 	for rows.Next() {
 		err = rows.Scan(&Mname, &Total, &Unsubmit, &Pending, &Failed, &Succeeded, &Running, &Status)
 		DAG2yaml.CheckErr(err)
-		Mname = sameLen(Mname, 24)
+		Mname = sameLen(Mname, 20)
 		mbym := fmt.Sprintf("%s\t%v\t%v\t%v\t%v\t%v\t%v\t%v" , Mname, Unsubmit, Pending, Running, Failed, Succeeded, Total, Status)
 		fmt.Println(mbym)
 	}
@@ -119,7 +119,7 @@ func ModuleReport(dbpath string){
 
 func ProjectReport(cff *Taskconf.ConfigFile){
 	fmt.Println(fmt.Sprintf("%s\t%s\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
-	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash() {
+	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash(){
 		if prjName == "000"{
 			continue
 		}
