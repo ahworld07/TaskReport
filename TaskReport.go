@@ -90,9 +90,12 @@ func ModuleReport(dbpath string){
 	if dbpath == ""{
 		return
 	}
+
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
 		panic(fmt.Sprintf("%s Not exists!4", dbpath))
+	}else{
+		fmt.Println(dbpath,"\n")
 	}
 
 	sqlDb, err := sql.Open("sqlite3", dbpath)
@@ -110,10 +113,10 @@ func ModuleReport(dbpath string){
 	for rows.Next() {
 		err = rows.Scan(&Mname, &Total, &Unsubmit, &Pending, &Failed, &Succeeded, &Running, &Status)
 		DAG2yaml.CheckErr(err)
-		Mname = sameLen(Mname, 20)
-		mbym := fmt.Sprintf("%s\t%v\t%v\t%v\t%v\t%v\t%v\t%v" , Mname, Unsubmit, Pending, Running, Failed, Succeeded, Total, Status)
+		mbym := fmt.Sprintf("%s\t%v\t%v\t%v\t%v\t%v\t%v\t%v" , sameLen(Mname, 20), sameLen(strconv.Itoa(Unsubmit),8), sameLen(strconv.Itoa(Pending),7), sameLen(strconv.Itoa(Running),7), sameLen(strconv.Itoa(Failed),6), sameLen(strconv.Itoa(Succeeded),9), sameLen(strconv.Itoa(Total),5), Status)
 		fmt.Println(mbym)
 	}
+	fmt.Println("\n")
 }
 
 
