@@ -2,13 +2,14 @@ package TaskReport
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/ahworld07/DAG2yaml"
 	"github.com/ahworld07/Taskconf"
+	"github.com/ahworld07/dag"
 	_ "github.com/mattn/go-sqlite3"
 	"strconv"
 	"strings"
-	"errors"
 )
 
 
@@ -74,16 +75,48 @@ func ProjectDepend(dbpath string){
 	var Modulen1, Modulen2 string
 	//var Start_time, End_time time.Time
 	rows, err := tx.Query("select Modulen1, Modulen2 from mbym")
+	TAsk_dag := dag.NewDAG()
 
 	fmt.Println("Module depend:")
 	for rows.Next() {
 		err = rows.Scan(&Modulen1, &Modulen2)
 		DAG2yaml.CheckErr(err)
-		Modulen1 = sameLen(Modulen1, 25)
-		mbym := fmt.Sprintf("%s----->    %s" , sameLen(Modulen1, 15), Modulen2)
-		fmt.Println(mbym)
+
+		vertex1 := dag.NewVertex(Modulen1, Modulen1)
+		ee1, _ := TAsk_dag.GetVertex(vertex1.ID)
+		if ee1 == nil{
+			err = TAsk_dag.AddVertex(vertex1)
+			DAG2yaml.CheckErr(err)
+		}else{
+			vertex1 = ee1
+		}
+
+		vertex2 := dag.NewVertex(Modulen2, Modulen2)
+
+		ee2, _ := TAsk_dag.GetVertex(vertex2.ID)
+		if ee2 == nil{
+			TAsk_dag.AddVertex(vertex2)
+		}else{
+			vertex2 = ee2
+		}
+		err = TAsk_dag.AddEdge(vertex1, vertex2)
+		DAG2yaml.CheckErr(err)
 	}
-	//print last module
+
+	for _, v := range TAsk_dag.Vertexs_slice(){
+		module_str := v.ID
+		vers,_ := TAsk_dag.Predecessors(v)
+
+		for i, o := range vers{
+			if i == 0{
+				module_str = module_str + "[" + o.ID
+			}else{
+				module_str = module_str + ", " + o.ID
+			}
+		}
+		module_str = module_str + "]"
+		fmt.Println(module_str)
+	}
 }
 
 func ModuleReport(dbpath string){
