@@ -143,7 +143,7 @@ func GetAllPods(dbpath string){
 	fmt.Println("Pod         \tModulen     \tPodK8sId                   \tStatus    \tRetriedtimes")
 
 	for rows.Next() {
-		err = rows.Scan(&Pod, &Modulen, &PodK8sId, &Status, , &Retriedtimes)
+		err = rows.Scan(&Pod, &Modulen, &PodK8sId, &Status, &Retriedtimes)
 		DAG2yaml.CheckErr(err)
 		fmt.Println(fmt.Sprintf("%s\t%s\t%s\t%s\t%v" , sameLen(Pod, 12), sameLen(Modulen, 12), sameLen(PodK8sId, 27), sameLen(Status, 10), Retriedtimes))
 	}
