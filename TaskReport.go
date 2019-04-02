@@ -136,15 +136,16 @@ func GetAllPods(dbpath string){
 	sqlDb, err := DBpath2conn(dbpath)
 	tx, _ := sqlDb.Begin()
 	defer tx.Rollback()
-	rows, err := tx.Query("select Pod, Modulen, PodK8sId, Status, IniPath from job")
+	rows, err := tx.Query("select Pod, Modulen, PodK8sId, Status, Retriedtimes from job")
 
-	var Pod, Modulen, PodK8sId, Status, IniPath string
-	fmt.Println("Pod         \tModulen     \tPodK8sId                   \tStatus    \tIniPath ")
+	var Pod, Modulen, PodK8sId, Status string
+	var Retriedtimes int
+	fmt.Println("Pod         \tModulen     \tPodK8sId                   \tStatus    \tRetriedtimes")
 
 	for rows.Next() {
-		err = rows.Scan(&Pod, &Modulen, &PodK8sId, &Status, &IniPath)
+		err = rows.Scan(&Pod, &Modulen, &PodK8sId, &Status, , &Retriedtimes)
 		DAG2yaml.CheckErr(err)
-		fmt.Println(fmt.Sprintf("%s\t%s\t%s\t%s\t%s" , sameLen(Pod, 12), sameLen(Modulen, 12), sameLen(PodK8sId, 27), sameLen(Status, 10), IniPath))
+		fmt.Println(fmt.Sprintf("%s\t%s\t%s\t%s\t%v" , sameLen(Pod, 12), sameLen(Modulen, 12), sameLen(PodK8sId, 27), sameLen(Status, 10), Retriedtimes))
 	}
 }
 
