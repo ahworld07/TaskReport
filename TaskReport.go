@@ -114,7 +114,10 @@ func ProjectDepend(dbpath string){
 				module_str = module_str + ", " + o.ID
 			}
 		}
-		module_str = module_str + "]"
+		if len(vers) > 0{
+			module_str = module_str + "]"
+		}
+
 		fmt.Println(module_str)
 	}
 }
