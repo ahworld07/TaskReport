@@ -53,7 +53,7 @@ func ProjectStat(Id int, prjName, dbpath string)(string){
 	prjName = sameLen(prjName, 20)
 	ProjectType = sameLen(ProjectType, 18)
 
-	prjStat := fmt.Sprintf("%v\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" , sameLen(fmt.Sprintf("%v",Id), 6), prjName, ProjectType, sameLen(strconv.Itoa(Unsubmit),8), sameLen(strconv.Itoa(Pending),7), sameLen(strconv.Itoa(Running),7), sameLen(strconv.Itoa(Failed),6), sameLen(strconv.Itoa(Succeeded),9), sameLen(strconv.Itoa(Total),5), Status)
+	prjStat := fmt.Sprintf("%v%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" , sameLen(fmt.Sprintf("%v",Id), 8), prjName, ProjectType, sameLen(strconv.Itoa(Unsubmit),8), sameLen(strconv.Itoa(Pending),7), sameLen(strconv.Itoa(Running),7), sameLen(strconv.Itoa(Failed),6), sameLen(strconv.Itoa(Succeeded),9), sameLen(strconv.Itoa(Total),5), Status)
 	return prjStat
 }
 
@@ -156,7 +156,7 @@ func ModuleReport(dbpath string){
 
 
 func ProjectReport(projects_DBconn *sql.DB){
-	fmt.Println(fmt.Sprintf("ID    %s\t%s\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
+	fmt.Println(fmt.Sprintf("ID      %s\t%s\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
 
 	/*
 	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash(){
