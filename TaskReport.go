@@ -30,7 +30,7 @@ func DBpath2conn(dbpath string)(sqlDb *sql.DB, err error){
 	return
 }
 
-func ProjectStat(prjName, dbpath string)(string){
+func ProjectStat(Id int, prjName, dbpath string)(string){
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
 		return fmt.Sprintf("%s Not exists!2", dbpath)
@@ -53,7 +53,7 @@ func ProjectStat(prjName, dbpath string)(string){
 	prjName = sameLen(prjName, 20)
 	ProjectType = sameLen(ProjectType, 18)
 
-	prjStat := fmt.Sprintf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" , prjName, ProjectType, sameLen(strconv.Itoa(Unsubmit),8), sameLen(strconv.Itoa(Pending),7), sameLen(strconv.Itoa(Running),7), sameLen(strconv.Itoa(Failed),6), sameLen(strconv.Itoa(Succeeded),9), sameLen(strconv.Itoa(Total),5), Status)
+	prjStat := fmt.Sprintf("%v\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" , sameLen(fmt.Sprintf("%v",Id), 6), prjName, ProjectType, sameLen(strconv.Itoa(Unsubmit),8), sameLen(strconv.Itoa(Pending),7), sameLen(strconv.Itoa(Running),7), sameLen(strconv.Itoa(Failed),6), sameLen(strconv.Itoa(Succeeded),9), sameLen(strconv.Itoa(Total),5), Status)
 	return prjStat
 }
 
@@ -168,13 +168,14 @@ func ProjectReport(projects_DBconn *sql.DB){
 		fmt.Println(prjStat)
 	}
 	*/
-
+	var Id int
 	var PrjName, DbPath string
-	rows, err := projects_DBconn.Query("select ProjectName, DbPath from projects")
+
+	rows, err := projects_DBconn.Query("select Id, ProjectName, DbPath from projects")
 	DAG2yaml.CheckErr(err)
 	for rows.Next() {
-		err = rows.Scan(&PrjName, &DbPath)
-		prjStat := ProjectStat(PrjName, DbPath)
+		err = rows.Scan(&Id, &PrjName, &DbPath)
+		prjStat := ProjectStat(Id, PrjName, DbPath)
 		fmt.Println(prjStat)
 	}
 }
