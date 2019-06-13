@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/ahworld07/DAG2yaml"
-	"github.com/ahworld07/Taskconf"
 	"github.com/ahworld07/dag"
 	_ "github.com/mattn/go-sqlite3"
 	"strconv"
@@ -156,14 +155,26 @@ func ModuleReport(dbpath string){
 }
 
 
-func ProjectReport(cff *Taskconf.ConfigFile){
-	fmt.Println(fmt.Sprintf("%s\t%s\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
+func ProjectReport(projects_DBconn *sql.DB){
+	fmt.Println(fmt.Sprintf("ID    %s\t%s\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
+
+	/*
 	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash(){
 		if prjName == "000"{
 			continue
 		}
 		//fmt.Println(fmt.Sprintf("%s1%s2",prjName, dbpath))
 		prjStat := ProjectStat(prjName, dbpath)
+		fmt.Println(prjStat)
+	}
+	*/
+
+	var PrjName, DbPath string
+	rows, err := projects_DBconn.Query("select ProjectName, DbPath from projects")
+	DAG2yaml.CheckErr(err)
+	for rows.Next() {
+		err = rows.Scan(&PrjName, &DbPath)
+		prjStat := ProjectStat(PrjName, DbPath)
 		fmt.Println(prjStat)
 	}
 }
