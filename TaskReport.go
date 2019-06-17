@@ -156,7 +156,7 @@ func ModuleReport(dbpath string){
 
 
 func ProjectReport(projects_DBconn *sql.DB){
-	fmt.Println(fmt.Sprintf("ID     %s\t%s\tUnsubmit  Pending\tRunning\tFailed\tSucceeded  Total\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
+	fmt.Println(fmt.Sprintf("ID     %s\t%s\tBatch\tUnsubmit  Pending\tRunning\tFailed\tSucceeded  Total\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
 
 	/*
 	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash(){
