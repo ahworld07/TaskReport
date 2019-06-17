@@ -30,7 +30,7 @@ func DBpath2conn(dbpath string)(sqlDb *sql.DB, err error){
 	return
 }
 
-func ProjectStat(Id int, prjName, dbpath string)(string){
+func ProjectStat(Id int, prjName, dbpath, ProjectBatch string)(string){
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
 		return fmt.Sprintf("%s Not exists!2", dbpath)
@@ -53,7 +53,7 @@ func ProjectStat(Id int, prjName, dbpath string)(string){
 	prjName = sameLen(prjName, 20)
 	ProjectType = sameLen(ProjectType, 18)
 
-	prjStat := fmt.Sprintf("%v%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s" , sameLen(fmt.Sprintf("%v",Id), 8), prjName, ProjectType, sameLen(strconv.Itoa(Unsubmit),8), sameLen(strconv.Itoa(Pending),7), sameLen(strconv.Itoa(Running),7), sameLen(strconv.Itoa(Failed),6), sameLen(strconv.Itoa(Succeeded),9), sameLen(strconv.Itoa(Total),5), Status)
+	prjStat := fmt.Sprintf("%v%s\t%s\t%s\t%s%s\t%s\t%s\t%s%s\t%s" , sameLen(fmt.Sprintf("%v",Id), 7), prjName, ProjectType, ProjectBatch, sameLen(strconv.Itoa(Unsubmit),10), sameLen(strconv.Itoa(Pending),7), sameLen(strconv.Itoa(Running),7), sameLen(strconv.Itoa(Failed),6), sameLen(strconv.Itoa(Succeeded),11), sameLen(strconv.Itoa(Total),5), Status)
 	return prjStat
 }
 
@@ -156,7 +156,7 @@ func ModuleReport(dbpath string){
 
 
 func ProjectReport(projects_DBconn *sql.DB){
-	fmt.Println(fmt.Sprintf("ID      %s\t%s\tUnsubmit\tPending\tRunning\tFailed\tSucceeded\tTotal\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
+	fmt.Println(fmt.Sprintf("ID     %s\t%s\tUnsubmit  Pending\tRunning\tFailed\tSucceeded  Total\tStatus", sameLen("prjName", 20), sameLen("Type", 18)))
 
 	/*
 	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash(){
@@ -169,13 +169,13 @@ func ProjectReport(projects_DBconn *sql.DB){
 	}
 	*/
 	var Id int
-	var PrjName, DbPath string
+	var PrjName, DbPath, ProjectBatch string
 
-	rows, err := projects_DBconn.Query("select Id, ProjectName, DbPath from projects")
+	rows, err := projects_DBconn.Query("select Id, ProjectName, DbPath, ProjectBatch from projects")
 	DAG2yaml.CheckErr(err)
 	for rows.Next() {
-		err = rows.Scan(&Id, &PrjName, &DbPath)
-		prjStat := ProjectStat(Id, PrjName, DbPath)
+		err = rows.Scan(&Id, &PrjName, &DbPath, &ProjectBatch)
+		prjStat := ProjectStat(Id, PrjName, DbPath, ProjectBatch)
 		fmt.Println(prjStat)
 	}
 }
