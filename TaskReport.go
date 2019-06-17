@@ -53,7 +53,7 @@ func ProjectStat(Id int, prjName, dbpath, ProjectBatch string)(string){
 	prjName = sameLen(prjName, 20)
 	ProjectType = sameLen(ProjectType, 18)
 
-	prjStat := fmt.Sprintf("%v%s%s%s\t%s%s\t%s\t%s\t%s%s%s" , sameLen(fmt.Sprintf("%v",Id), 7), sameLen(prjName,20), sameLen(ProjectType,20), ProjectBatch, sameLen(strconv.Itoa(Unsubmit),10), sameLen(strconv.Itoa(Pending),7), sameLen(strconv.Itoa(Running),7), sameLen(strconv.Itoa(Failed),6), sameLen(strconv.Itoa(Succeeded),11), sameLen(strconv.Itoa(Total),7), Status)
+	prjStat := fmt.Sprintf("%v%s%s%s\t%s%s%s%s%s%s%s" , sameLen(fmt.Sprintf("%v",Id), 7), sameLen(prjName,20), sameLen(ProjectType,20), ProjectBatch, sameLen(strconv.Itoa(Unsubmit),10), sameLen(strconv.Itoa(Pending),9), sameLen(strconv.Itoa(Running),9), sameLen(strconv.Itoa(Failed),8), sameLen(strconv.Itoa(Succeeded),11), sameLen(strconv.Itoa(Total),7), Status)
 	return prjStat
 }
 
@@ -156,7 +156,7 @@ func ModuleReport(dbpath string){
 
 
 func ProjectReport(projects_DBconn *sql.DB){
-	fmt.Println(fmt.Sprintf("ID     %s%sBatch\tUnsubmit  Pending\tRunning\tFailed\tSucceeded  Total  Status", sameLen("prjName", 20), sameLen("Type", 20)))
+	fmt.Println(fmt.Sprintf("ID     %s%sBatch\tUnsubmit  Pending  Running  Failed  Succeeded  Total  Status", sameLen("prjName", 20), sameLen("Type", 20)))
 
 	/*
 	for prjName, dbpath := range cff.Cfg.Section("project").KeysHash(){
