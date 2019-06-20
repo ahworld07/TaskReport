@@ -45,13 +45,13 @@ func ProjectStat(Id int, prjName, dbpath, ProjectBatch string)(string){
 	//var Start_time, End_time time.Time
 	rows, err := tx.Query("select ProjectType, Status, Total, Unsubmit, Pending, Running, Failed, Succeeded from project where ProjectName = ?", prjName)
 	if err != nil{
-		return fmt.Sprintf("%s is empty!2", dbpath)
+		return fmt.Sprintf("%v %s is empty!2", Id, dbpath)
 	}
 
 	for rows.Next() {
 		err = rows.Scan(&ProjectType, &Status, &Total, &Unsubmit, &Pending, &Running, &Failed, &Succeeded)
 		if err != nil{
-			return fmt.Sprintf("%s is empty!2 %v", dbpath, err)
+			return fmt.Sprintf("%v %s is empty!2 %v", Id, dbpath, err)
 		}
 	}
 
