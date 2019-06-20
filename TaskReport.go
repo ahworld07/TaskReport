@@ -44,10 +44,15 @@ func ProjectStat(Id int, prjName, dbpath, ProjectBatch string)(string){
 	var Total, Unsubmit, Pending, Running, Failed, Succeeded int
 	//var Start_time, End_time time.Time
 	rows, err := tx.Query("select ProjectType, Status, Total, Unsubmit, Pending, Running, Failed, Succeeded from project where ProjectName = ?", prjName)
+	if err != nil{
+		return fmt.Sprintf("%s is empty!2", dbpath)
+	}
 
 	for rows.Next() {
 		err = rows.Scan(&ProjectType, &Status, &Total, &Unsubmit, &Pending, &Running, &Failed, &Succeeded)
-		DAG2yaml.CheckErr(err)
+		if err != nil{
+			return fmt.Sprintf("%s is empty!2 %v", dbpath, err)
+		}
 	}
 
 	prjName = sameLen(prjName, 20)
