@@ -33,7 +33,7 @@ func DBpath2conn(dbpath string)(sqlDb *sql.DB, err error){
 func ProjectStat(Id int, prjName, dbpath, ProjectBatch string)(string){
 	exit_file, _ := DAG2yaml.PathExists(dbpath)
 	if exit_file == false {
-		return fmt.Sprintf("ID:%v, Dbpath: %s Not exists!2", dbpath)
+		return fmt.Sprintf("ID:%v, Dbpath: %s Not exists!2", Id, dbpath)
 	}
 	sqlDb, err := sql.Open("sqlite3", dbpath)
 	DAG2yaml.CheckErr(err)
