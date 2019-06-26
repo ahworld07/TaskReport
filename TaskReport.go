@@ -9,6 +9,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"strconv"
 	"strings"
+	"time"
 )
 
 
@@ -143,6 +144,16 @@ func ModuleReport(dbpath string){
 
 	tx, _ := sqlDb.Begin()
 	defer tx.Rollback()
+	var WorkFlowMode, AgsId string
+	var Start_time, End_time time.Time
+
+	err = tx.QueryRow("select WorkFlowMode, AgsId, Start_time, End_time from project where Id = ?", 1).Scan(&WorkFlowMode, &AgsId, &Start_time, &End_time)
+	if WorkFlowMode == "agsMbyM"{
+		fmt.Println("AgsId: ", AgsId)
+	}
+
+	fmt.Println(fmt.Sprintf("start time: %s\nend time: %s", Start_time, End_time))
+
 	var Mname, Status string
 	var Total, Unsubmit, Pending, Failed, Succeeded, Running int
 	//var Start_time, End_time time.Time
