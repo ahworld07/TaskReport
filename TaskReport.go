@@ -148,7 +148,7 @@ func ModuleReport(dbpath string){
 	var Start_time, End_time time.Time
 
 	err = tx.QueryRow("select WorkFlowMode, AgsId, Start_time, End_time from project where Id = ?", 1).Scan(&WorkFlowMode, &AgsId, &Start_time, &End_time)
-	if WorkFlowMode == "agsMbyM"{
+	if WorkFlowMode == "agsMbyM" || WorkFlowMode == "agsTask"{
 		fmt.Println("AgsId: ", AgsId)
 	}
 
